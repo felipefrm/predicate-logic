@@ -1,22 +1,25 @@
-% Insere no final da lista
-inserir_final([], Y, [Y]).         % Se a lista estava vazia, o resultado é [Y]
-inserir_final([I|R], Y, [I|R1]) :- % Senão, o primeiro elemento é igual, e o resto é obtido
-    inserir_final(R, Y, R1).       % Inserindo o elemento Y no final do antigo resto
+% Insere no final da lista = inserir_final(lista onde quer inserir o elemento, elemento, lista resultante)
+inserir_final([], X, [X]).         % Se a lista estava vazia, o resultado é [X]
+inserir_final([C|R], X, [C|R1]) :- % Senão, o primeiro elemento é igual, e o resto é obtido
+    inserir_final(R, X, R1).       % Inserindo o elemento X no final do antigo resto
 
-% Insere numa posição N
-insereN(X,1,L,[X|L]).
-insereN(X,N,[C|L],[C|R]):-N1 is N-1, insereN(X,N1,L,R).
+% Insere em uma posição N = insere_N(elemento a ser inserido, indice, lista, lista resultante)
+insere_N(X, 1, L, [X|L]).
+insere_N(X, N, [C|L], [C|R]) :- N1 is N-1, insere_N(X, N1, L, R).
 
-% Remove um elemento da lista a partir do índice
-insereInicio(H, L, [H|L]):- !.
-removeind(0,[_|T],T):- !.
-removeind(I,[H|T],R):- X is I - 1, removeind(X, T, Y), insereInicio(H, Y, R).
+% Remove um elemento da lista a partir do índice = insere_indice(indice, lista, lista resultante)
+insere_inicio(H, L, [H|L]):- !.
+remove_indice(0,[_|T],T):- !.
+remove_indice(I,[H|T],R):- X is I - 1, remove_indice(X, T, Y), insere_inicio(H, Y, R).
 
-% Maior elemento
-max([X,Y|Cauda],Max) :- X >= Y, !, max([X|Cauda],Max).
-max([X,Y|Cauda],Max) :- max([Y|Cauda],Max).
+% Maior elemento da lista = max(lista, variavel que receberá o maior elemento)
+max([H|T], Y):- max1(T,X),
+    (H > X ->
+     H = Y;
+     Y = X).
+max([X],X).
 
-% Interseção de duas linhas
+% Interseção de duas listas = inter(lista1, lista2, lista resultante)
 pertence(X, [X|_]).
 pertence(X, [_|R]) :- pertence(X, R).
 inter([ ], _, [ ]).
@@ -30,6 +33,3 @@ sum(N,R) :-		% se n não for igual a 0:
   N1 is N-1,	% decrementa o contador
   sum(N1,R1),	% chama sum para o contador decrementado
   R is R1+N.	% incrementa o resultado da soma com o contador
-
-
-  
