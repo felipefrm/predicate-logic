@@ -32,3 +32,13 @@ chefe(Y,X):-(cargo(X, supervisor_chefe) , cargo(Y, diretor)).
 chefe(Y,X):-(cargo(X, secretaria) , cargo(Y, diretor)). 
 chefe(X,Z):-chefe(X,Y),chefe(Y,Z).
 
+chefes(tecnico,engenheiro).
+chefes(engenheiro,supervisor).
+chefes(analista,supervisor).
+chefes(supervisor,supervisor_chefe).
+chefes(supervisor_chefe,diretor).
+chefes(secretaria,diretor).
+
+%chefes(tecnico,X),chefes(X,Y)
+%chefe(X,ivone),cargo(X,Y)
+%chefes(X,supervisor_chefe),cargo(Y,X),chefes(Z,supervisor),cargo(W,Z)
