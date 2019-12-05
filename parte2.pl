@@ -9,11 +9,26 @@ supervisor(luis).
 supervisor_chefe(sonia).
 secretaria(laura).
 diretor(santiago).
-analista().
-chefe(Y,X):-(tecnico(X) , engenheiro(Y)).  
-chefe(Y,X):-(engenheiro(X) , supervisor(Y)).
-chefe(Y,X):-(analista(X) , supervisor(Y)).
-chefe(Y,X):-(supervisor(X) , supervisor_chefe(Y)).
-chefe(Y,X):-(supervisor_chefe(X) , diretor(Y)).
-chefe(Y,X):-(secretaria(X) , diretor(Y)).
+%analista().
+
+%cargo(X, analista).
+cargo(rogerio, tecnico).
+cargo(ivone, tecnico).
+cargo(daniel, engenheiro).
+cargo(isabel, engenheiro).
+cargo(oscar, engenheiro).
+cargo(tomas, engenheiro).
+cargo(ana, engenheiro).
+cargo(luis, supervisor).
+cargo(sonia, supervisor_chefe).
+cargo(laura, secretaria).
+cargo(santiago, diretor).
+
+chefe(Y,X):-(cargo(X, tecnico) , cargo(Y, engenheiro)).  
+chefe(Y,X):-(cargo(X, engenheiro) , cargo(Y, supervisor)). 
+%chefe(Y,X):-(cargo(X, analista), cargo(Y, supervisor)).
+chefe(Y,X):-(cargo(X, supervisor) , cargo(Y, supervisor_chefe)). 
+chefe(Y,X):-(cargo(X, supervisor_chefe) , cargo(Y, diretor)). 
+chefe(Y,X):-(cargo(X, secretaria) , cargo(Y, diretor)). 
 chefe(X,Z):-chefe(X,Y),chefe(Y,Z).
+
