@@ -26,9 +26,13 @@ chefiado(supervisor, supervisor_chefe).
 chefiado(supervisor_chefe, diretor).
 chefiado(secretaria, diretor).
 
+chefiados(X,Z):-chefiado(X,Z).
+chefiados(X,Z):-
+	chefiado(X,Y),chefiados(Y,Z).
+
 % Consultas:
 % a) chefiado(tecnico, X) , chefiado(X, Y) 
 % b) chefe(X, ivone) , cargo(X, Y)
 % c) chefiado(X, supervisor_chefe) , cargo(Y, X)  
 %    chefiado(Z, supervisor) , cargo(W, Z)
-% d)
+% d) cargo(_,X), not(chefiados(X,diretor)).
