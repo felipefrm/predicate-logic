@@ -46,3 +46,20 @@ lista_invertida(L1, L2) :- lista_invertida(L1, [], L2).
 lista_invertida([],L1, L1).
 lista_invertida([L1|L2], X, Y) :- lista_invertida(L2, [L1|X], Y).
 palindromo(LISTA):- lista_invertida(LISTA, LISTA).
+
+
+
+uniao_lista([], LISTA, LISTA). % Se a primeira lista é vazia o resultado será a própria lista.
+uniao_lista( [CABECA | RESTO1], LISTA, [CABECA | RESTO2]) :-
+    uniao_lista( RESTO1, LISTA, RESTO2).
+
+acomoda([], []) :- !.
+acomoda([CABECA|RESTO], LISTA_PLANA) :-
+    !,
+    % NOVA_LISTA1 e NOVA_LISTA2 serão uma lista "plana"
+    % NOVA_LISTA1 será a lista "plana" da cabeça da lista
+    % NOVA_LISTA2 será a lista "plana" do resto da lista
+    acomoda(CABECA, NOVA_LISTA1),
+    acomoda(RESTO, NOVA_LISTA2),
+    uniao_lista(NOVA_LISTA1, NOVA_LISTA2, LISTA_PLANA).
+acomoda(LISTA, [LISTA]).
