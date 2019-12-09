@@ -25,14 +25,16 @@ max([CABECA|CAUDA], Y):- max(CAUDA, X),
 max([X], X).
 
 
-% Ordena uma lista
-% ordena(lista,lista resultante)
+
+
 
 % exclui(elemento, lista, lista resultante)
 exclui(ELEMENTO,[ELEMENTO|RESTO],RESTO).
 exclui(ELEMENTO,[CABECA|RESTO1],[CABECA|RESTO2]) :-
     exclui(ELEMENTO,RESTO1,RESTO2).
 
+% Ordena uma lista
+% ordena(lista,lista resultante)
 ordena([ELEMENTO],[ELEMENTO]).
 ordena(LISTA,RESULTADO) :-
     max(LISTA,MAIOR_ELEMENTO), % pega o maior elemento da lista
