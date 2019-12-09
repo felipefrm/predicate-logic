@@ -1,3 +1,4 @@
+%Atribui a cada pessoa seu cargo
 %cargo(X, analista).
 cargo(rogerio, tecnico).
 cargo(ivone, tecnico).
@@ -11,6 +12,7 @@ cargo(sonia, supervisor_chefe).
 cargo(laura, secretaria).
 cargo(santiago, diretor).
 
+%Permite a consulta de quem é chefe de quem através do nome da pessoa
 chefe(Y,X):-(cargo(X, tecnico) , cargo(Y, engenheiro)).  
 chefe(Y,X):-(cargo(X, engenheiro) , cargo(Y, supervisor)). 
 %chefe(Y,X):-(cargo(X, analista), cargo(Y, supervisor)).
@@ -19,6 +21,8 @@ chefe(Y,X):-(cargo(X, supervisor_chefe) , cargo(Y, diretor)).
 chefe(Y,X):-(cargo(X, secretaria) , cargo(Y, diretor)). 
 chefe(X,Z):-chefe(X,Y),chefe(Y,Z).
 
+
+%Organiza a hierarquia dos cargos, quem é chefiado por quem
 chefiado(tecnico, engenheiro).
 chefiado(engenheiro, supervisor).
 chefiado(analista, supervisor).
