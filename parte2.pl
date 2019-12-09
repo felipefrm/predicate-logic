@@ -1,4 +1,5 @@
 %Atribui a cada pessoa seu cargo
+%cargo(nome do funcionario, cargo do funcionario)
 cargo(rogerio, tecnico).
 cargo(ivone, tecnico).
 cargo(daniel, engenheiro).
@@ -12,9 +13,9 @@ cargo(laura, secretaria).
 cargo(santiago, diretor).
 
 %Permite a consulta de quem é chefe de quem através do nome da pessoa
+%chefe(nome do chefe, nome do subordinado)
 chefe(Y,X):-(cargo(X, tecnico) , cargo(Y, engenheiro)).  
 chefe(Y,X):-(cargo(X, engenheiro) , cargo(Y, supervisor)). 
-%chefe(Y,X):-(cargo(X, analista), cargo(Y, supervisor)).
 chefe(Y,X):-(cargo(X, supervisor) , cargo(Y, supervisor_chefe)). 
 chefe(Y,X):-(cargo(X, supervisor_chefe) , cargo(Y, diretor)). 
 chefe(Y,X):-(cargo(X, secretaria) , cargo(Y, diretor)). 
@@ -22,6 +23,7 @@ chefe(X,Z):-chefe(X,Y),chefe(Y,Z).
 
 
 %Organiza a hierarquia dos cargos, quem é chefiado por quem
+%chefiado(cargo subordinado, cargo chefe)
 chefiado(tecnico, engenheiro).
 chefiado(engenheiro, supervisor).
 chefiado(analista, supervisor).
@@ -31,6 +33,7 @@ chefiado(secretaria, diretor).
 
 % Chamada recursiva para buscar todos os subordinados diretos e 
 % indiretos de um determinado chefe
+% chefiados(cargo subordinado, cargo chefe)
 chefiados(X,Z):-chefiado(X,Z).
 chefiados(X,Z):-
 	chefiado(X,Y),chefiados(Y,Z).
