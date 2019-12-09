@@ -102,5 +102,7 @@ acomoda(LISTA, [LISTA]).
 % inserir_final([1,2,3,4],5,L)
 % insere_N(99,2,[1,2,2,4],L)
 % remove_indice(2,[1,2,3,5,6],L)
+% intersecao([1,2,3],[2,3,4], L)
+% elementos_pertencem([2,4], [1,2,3,4], L)
 % soma(5,L)
 % acomoda([a,  [a,  [b,  c]],  b,  [c,  d]],L)
