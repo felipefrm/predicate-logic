@@ -1,4 +1,3 @@
-
 % Insere no final da lista = inserir_final(lista onde quer inserir o elemento, elemento, lista resultante)
 inserir_final([], ELEMENTO, [ELEMENTO]).         			% Se a lista estava vazia, o resultado é [X]
 inserir_final([CABECA|RESTO], ELEMENTO, [CABECA|RESTO1]) :- % Senão, o primeiro elemento é igual, e o resto é obtido
@@ -7,17 +6,37 @@ inserir_final([CABECA|RESTO], ELEMENTO, [CABECA|RESTO1]) :- % Senão, o primeiro
 
 % Insere em uma posição N = insere_N(elemento a ser inserido, indice, lista, lista resultante)
 % Posição começa de 0
-insere_N(ELEMENTO, 0, LISTA, [ELEMENTO|LISTA]).												% Se o indice for 0 já insere na cabeça da lista
-insere_N(ELEMENTO, INDICE, [CABECA|LISTA], [CABECA|RESULTANTE]) :- 							% Senão, a cada chamada recursiva desconsidera a cabeça da lista
-	INDICE1 is INDICE-1,
-    insere_N(ELEMENTO, INDICE1, LISTA, RESULTANTE).					% e decrementa o indice, até o indice ser igual a 0.
+insere_N(ELEMENTO, 0, LISTA, [ELEMENTO|LISTA]).													% Se o indice for 1 já insere na cabeça da lista
+insere_N(ELEMENTO, INDICE, [CABECA|LISTA], [CABECA|RESULTANTE]) :- 								% Senão, a cada chamada recursiva desconsidera a cabeça da lista
+	INDICE1 is INDICE-1,																		% e decrementa o indice, até o indice ser igual a 0.
+    insere_N(ELEMENTO, INDICE1, LISTA, RESULTANTE).					
 
-% Remove um elemento da lista a partir do índice = insere_indice(indice, lista, lista resultante)
+% 
+% % Remove um elemento da lista a partir do índice = insere_indice(indice, lista, lista resultante)
 insere_inicio(ELEMENTO, LISTA, [ELEMENTO|LISTA]):- !.											
 remove_indice(0, [_|CAUDA], CAUDA):- !.																			% Se indice for 0, remove a cabeça da lista
 remove_indice(INDICE, [ELEMENTO|CAUDA], RESULTANTE):- 															% Senão, decrementa o indice, e constroi-se uma lista do inicio
     INDICE1 is INDICE - 1, remove_indice(INDICE1, CAUDA, LISTA), insere_inicio(ELEMENTO, LISTA, RESULTANTE).	% adicionando a cada chamada o primeiro elemento. Quando o indice for igual a 0
 																												% remove o primeiro elemento da lista construida.
+
+% Interseção de duas listas = inter(lista1, lista2, lista resultante)
+pertence(X, [X|_]) :- !.														% verifica se um elemento pertence a uma lista.
+pertence(X, [_|RESTO]) :- pertence(X, RESTO).									% se tivermos uma lista desconhecida, e uma lista vazia, a interseção
+intersecao([ ], _, [ ]).														% resulta em uma lista também vazia.
+intersecao([X|L1], L2, [X|L3]):- pertence(X, L2), intersecao(L1, L2, L3).		% senão, se tivermos um elemento x na lista 1 e ele também estiver contido
+intersecao([_|L1], L2, L3):- intersecao(L1, L2, L3).							% na lista resultante, então tem que estar contido também na lista 2
+																				% checa-se isso para todos os elementos das listas por recursão
+
+
+% Checa se conjunto de elementos está em uma lista
+% elementos_percentem(lista1, lista2, lista resultante)
+% tal que a lista1 é a lista que deve-se checar se seus elementos estão na lista2
+elementos_pertencem([CABECA],LISTA,__) :- !,
+    pertence(CABECA,LISTA).
+elementos_pertencem([CABECA|RESTO],LISTA,RESULTADO) :-
+    pertence(CABECA,LISTA),
+    elementos_pertencem(RESTO,LISTA,RESULTADO).
+
 
 % Maior elemento da lista = max(lista, variavel que receberá o maior elemento)
 max([CABECA|CAUDA], Y):- max(CAUDA, X),
@@ -25,7 +44,6 @@ max([CABECA|CAUDA], Y):- max(CAUDA, X),
      CABECA = Y;
      Y = X).
 max([X], X).
-
 
 
 % exclui(elemento, lista, lista resultante)
@@ -43,24 +61,8 @@ ordena(LISTA,RESULTADO) :-
     inserir_final(RESTO_ORDENADO,MAIOR_ELEMENTO,RESULTADO). % insere o maior elemento no final da lista RESTO que já está ordenada
 
 
-% Interseção de duas listas = inter(lista1, lista2, lista resultante)
-pertence(X, [X|_]) :- !.																% verifica se um elemento pertence a uma lista.
-pertence(X, [_|RESTO]) :- pertence(X, RESTO).									% se tivermos uma lista desconhecida, e uma lista vazia, a interseção
-intersecao([ ], _, [ ]).														% resulta em uma lista também vazia.
-intersecao([X|L1], L2, [X|L3]):- pertence(X, L2), intersecao(L1, L2, L3).		% senão, se tivermos um elemento x na lista 1 e ele também estiver contido
-intersecao([_|L1], L2, L3):- intersecao(L1, L2, L3).							% na lista resultante, então tem que estar contido também na lista 2
-																				% checa-se isso para todos os elementos das listas por recursão
-% Checa se conjunto de elementos está em uma lista
-% elementos_percentem(lista1, lista2, lista resultante)
-% tal que a lista1 é a lista que deve-se checar se seus elementos estão na lista2
-elementos_pertencem([CABECA],LISTA,__) :- !,
-    pertence(CABECA,LISTA).
-elementos_pertencem([CABECA|RESTO],LISTA,RESULTADO) :-
-    pertence(CABECA,LISTA),
-    elementos_pertencem(RESTO,LISTA,RESULTADO).
-
-
-% Soma dos n primeiros números = sum(numero, variavel que receberá o resultado
+																				
+% Soma dos n primeiros números = sum(numero, variavel que receberá o resultado)
 soma(0,0).  	% caso base
 soma(N,R) :-	% se n não for igual a 0: 
   N > 0,		% considerando n positivo
@@ -93,9 +95,8 @@ acomoda([CABECA|RESTO], LISTA_PLANA) :-
     % NOVA_LISTA2 será a lista "plana" do resto da lista
     acomoda(CABECA, NOVA_LISTA1),
     acomoda(RESTO, NOVA_LISTA2),
-    concatena(NOVA_LISTA1, NOVA_LISTA2, LISTA_PLANA).
+    concantena(NOVA_LISTA1, NOVA_LISTA2, LISTA_PLANA).
 acomoda(LISTA, [LISTA]).
-
 
 % Exemplo de uso:
 % inserir_final([1,2,3,4],5,L)
