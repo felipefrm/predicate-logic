@@ -6,9 +6,11 @@ inserir_final([CABECA|RESTO], ELEMENTO, [CABECA|RESTO1]) :- % Senão, o primeiro
 
 
 % Insere em uma posição N = insere_N(elemento a ser inserido, indice, lista, lista resultante)
-insere_N(ELEMENTO, 1, LISTA, [ELEMENTO|LISTA]).												% Se o indice for 1 já insere na cabeça da lista
+% Posição começa de 0
+insere_N(ELEMENTO, 0, LISTA, [ELEMENTO|LISTA]).												% Se o indice for 0 já insere na cabeça da lista
 insere_N(ELEMENTO, INDICE, [CABECA|LISTA], [CABECA|RESULTANTE]) :- 							% Senão, a cada chamada recursiva desconsidera a cabeça da lista
-	INDICE1 is INDICE-1, insere_N(ELEMENTO, INDICE1, LISTA, RESULTANTE).					% e decrementa o indice, até o indice ser igual a 1.
+	INDICE1 is INDICE-1,
+    insere_N(ELEMENTO, INDICE1, LISTA, RESULTANTE).					% e decrementa o indice, até o indice ser igual a 0.
 
 % Remove um elemento da lista a partir do índice = insere_indice(indice, lista, lista resultante)
 insere_inicio(ELEMENTO, LISTA, [ELEMENTO|LISTA]):- !.											
@@ -23,8 +25,6 @@ max([CABECA|CAUDA], Y):- max(CAUDA, X),
      CABECA = Y;
      Y = X).
 max([X], X).
-
-
 
 
 
@@ -93,8 +93,13 @@ acomoda([CABECA|RESTO], LISTA_PLANA) :-
     % NOVA_LISTA2 será a lista "plana" do resto da lista
     acomoda(CABECA, NOVA_LISTA1),
     acomoda(RESTO, NOVA_LISTA2),
-    uniao_lista(NOVA_LISTA1, NOVA_LISTA2, LISTA_PLANA).
+    concatena(NOVA_LISTA1, NOVA_LISTA2, LISTA_PLANA).
 acomoda(LISTA, [LISTA]).
 
+
 % Exemplo de uso:
+% inserir_final([1,2,3,4],5,L)
+% insere_N(99,2,[1,2,2,4],L)
+% remove_indice(2,[1,2,3,5,6],L)
+% soma(5,L)
 % acomoda([a,  [a,  [b,  c]],  b,  [c,  d]],L)
