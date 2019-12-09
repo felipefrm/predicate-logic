@@ -1,3 +1,4 @@
+
 % Insere no final da lista = inserir_final(lista onde quer inserir o elemento, elemento, lista resultante)
 inserir_final([], ELEMENTO, [ELEMENTO]).         			% Se a lista estava vazia, o resultado é [X]
 inserir_final([CABECA|RESTO], ELEMENTO, [CABECA|RESTO1]) :- % Senão, o primeiro elemento é igual, e o resto é obtido
@@ -23,14 +24,39 @@ max([CABECA|CAUDA], Y):- max(CAUDA, X),
      Y = X).
 max([X], X).
 
+
+% Ordena uma lista
+% ordena(lista,lista resultante)
+
+% exclui(elemento, lista, lista resultante)
+exclui(ELEMENTO,[ELEMENTO|RESTO],RESTO).
+exclui(ELEMENTO,[CABECA|RESTO1],[CABECA|RESTO2]) :-
+    exclui(ELEMENTO,RESTO1,RESTO2).
+
+ordena([ELEMENTO],[ELEMENTO]).
+ordena(LISTA,RESULTADO) :-
+    max(LISTA,MAIOR_ELEMENTO), % pega o maior elemento da lista
+    exclui(MAIOR_ELEMENTO,LISTA,RESTO), % exclui esse elemento e gera a lista RESTO
+    ordena(RESTO,RESTO_ORDENADO), % ordena a lista RESTO
+    inserir_final(RESTO_ORDENADO,MAIOR_ELEMENTO,RESULTADO). % insere o maior elemento no final da lista RESTO que já está ordenada
+
+
 % Interseção de duas listas = inter(lista1, lista2, lista resultante)
-pertence(X, [X|_]).																% verifica se um elemento pertence a uma lista.
+pertence(X, [X|_]) :- !.																% verifica se um elemento pertence a uma lista.
 pertence(X, [_|RESTO]) :- pertence(X, RESTO).									% se tivermos uma lista desconhecida, e uma lista vazia, a interseção
 intersecao([ ], _, [ ]).														% resulta em uma lista também vazia.
 intersecao([X|L1], L2, [X|L3]):- pertence(X, L2), intersecao(L1, L2, L3).		% senão, se tivermos um elemento x na lista 1 e ele também estiver contido
 intersecao([_|L1], L2, L3):- intersecao(L1, L2, L3).							% na lista resultante, então tem que estar contido também na lista 2
 																				% checa-se isso para todos os elementos das listas por recursão
-																					
+% Checa se conjunto de elementos está em uma lista
+% elementos_percentem(lista1, lista2, lista resultante)
+% tal que a lista1 é a lista que deve-se checar se seus elementos estão na lista2
+elementos_pertencem([CABECA],LISTA,__) :- !,
+    pertence(CABECA,LISTA).
+elementos_pertencem([CABECA|RESTO],LISTA,RESULTADO) :-
+    pertence(CABECA,LISTA),
+    elementos_pertencem(RESTO,LISTA,RESULTADO).
+
 
 % Soma dos n primeiros números = sum(numero, variavel que receberá o resultado
 soma(0,0).  	% caso base
@@ -40,6 +66,9 @@ soma(N,R) :-	% se n não for igual a 0:
   soma(N1,R1),	% chama sum para o contador decrementado
   R is R1+N.	% incrementa o resultado da soma com o contador
 
+    
+
+
 
 % Checa se uma lista é palindromo ou não = palindromo(lista)
 lista_invertida(L1, L2) :- lista_invertida(L1, [], L2).
@@ -47,12 +76,13 @@ lista_invertida([],L1, L1).
 lista_invertida([L1|L2], X, Y) :- lista_invertida(L2, [L1|X], Y).
 palindromo(LISTA):- lista_invertida(LISTA, LISTA).
 
+% Concatena duas listas, concatena(lista1, lista2, lista resultante)
+concatena([], LISTA, LISTA). % Se a primeira lista é vazia o resultado será a própria lista.
+concatena([CABECA | RESTO1], LISTA, [CABECA | RESTO2]) :-
+    concatena(RESTO1, LISTA, RESTO2).
 
-
-uniao_lista([], LISTA, LISTA). % Se a primeira lista é vazia o resultado será a própria lista.
-uniao_lista( [CABECA | RESTO1], LISTA, [CABECA | RESTO2]) :-
-    uniao_lista( RESTO1, LISTA, RESTO2).
-
+% faz uma lista "plana" com a lista dada como entrada
+% acomoda(lista1,lista resultante)
 acomoda([], []) :- !.
 acomoda([CABECA|RESTO], LISTA_PLANA) :-
     !,
@@ -63,3 +93,6 @@ acomoda([CABECA|RESTO], LISTA_PLANA) :-
     acomoda(RESTO, NOVA_LISTA2),
     uniao_lista(NOVA_LISTA1, NOVA_LISTA2, LISTA_PLANA).
 acomoda(LISTA, [LISTA]).
+
+% Exemplo de uso:
+% acomoda([a,  [a,  [b,  c]],  b,  [c,  d]],L)
